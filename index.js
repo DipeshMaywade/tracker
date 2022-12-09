@@ -11,7 +11,6 @@ app.use(cors());
 app.get("/", (req, res) => {
   let hours = new Date().getUTCHours();
   var hourStamp = new Date().setUTCHours(hours, 0, 0, 0);
-
   let ip = requestIp.getClientIp(req);
   if (fs.existsSync(`./data/first/${hourStamp}.json`)) {
     let file = require(`./data/first/${hourStamp}.json`);
@@ -30,8 +29,9 @@ app.get("/", (req, res) => {
 app.get("/push", (req, res) => {
   let hours = new Date().getUTCHours();
   var hourStamp = new Date().setUTCHours(hours, 0, 0, 0);
+  let ip = requestIp.getClientIp(req);
+
   if (fs.existsSync(`./data/second/${hourStamp}.json`)) {
-    let ip = requestIp.getClientIp(req);
     let file = require(`./data/second/${hourStamp}.json`);
     let index = file.length + 1;
     file.push({ id: index, ...req.headers, ip, timestamp: Date.now() });
